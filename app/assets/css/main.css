@@ -1,0 +1,66 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap");
+
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "./fonts.css";
+
+@theme {
+  /* Typography */
+  /* --font-sans: "Outfit", sans-serif;
+  --font-display: "ClashDisplay", sans-serif; */
+
+  /* Brand colors */
+  --color-primary-50: oklch(0.97 0.02 270);
+  --color-primary-100: oklch(0.93 0.05 270);
+  --color-primary-200: oklch(0.86 0.1 270);
+  --color-primary-300: oklch(0.77 0.16 270);
+  --color-primary-400: oklch(0.66 0.22 270);
+  --color-primary-500: oklch(0.55 0.26 270);
+  --color-primary-600: oklch(0.46 0.24 270);
+  --color-primary-700: oklch(0.38 0.2 270);
+  --color-primary-800: oklch(0.3 0.15 270);
+  --color-primary-900: oklch(0.22 0.1 270);
+  --color-primary-950: oklch(0.15 0.07 270);
+
+  --color-brand-50: #fef2f2;
+  --color-brand-100: #fee2e2;
+  --color-brand-200: #fecaca;
+  --color-brand-300: #fca5a5;
+  --color-brand-400: #f87171;
+  --color-brand-500: #ef4444;
+  --color-brand-600: #dc2626;
+  --color-brand-700: #b91c1c;
+  --color-brand-800: #991b1b;
+  --color-brand-900: #7f1d1d;
+  --color-brand-950: #450a0a;
+
+  --color-green-50: #effdf5;
+  --color-green-100: #d9fbe8;
+  --color-green-200: #b3f5d1;
+  --color-green-300: #75edae;
+  --color-green-400: #00dc82;
+  --color-green-500: #00c16a;
+  --color-green-600: #00a155;
+  --color-green-700: #007f45;
+  --color-green-800: #016538;
+  --color-green-900: #0a5331;
+  --color-green-950: #052e16;
+}
+
+.card {
+  @apply border border-gray-200 p-4 bg-white flex flex-col gap-4;
+}
+.primary-button {
+  @apply bg-primary-500 text-white px-3 text-sm py-1  hover:bg-primary-600 transition;
+}
+.danger-button {
+  @apply bg-brand-500 text-white px-3 text-sm py-1  hover:bg-brand-600 transition;
+}
+.update-button {
+  @apply bg-green-500   px-3 text-sm py-1  hover:bg-green-600 transition;
+}
+
+button {
+  @apply cursor-pointer;
+}
