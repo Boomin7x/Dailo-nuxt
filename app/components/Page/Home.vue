@@ -24,6 +24,7 @@
         <p class="text-gray-500">No tasks yet. Create your first task!</p>
       </div>
 
+
       <UAlert
         color="neutral"
         title="Heads up!"
@@ -43,11 +44,18 @@
               'border-yellow-500': task.status === TaskStatus.PENDING,
               'border-green-500': task.status === TaskStatus.COMPLETED,
               'border-red-500': task.status === TaskStatus.OVERDUE,
-              'border-l-4 pl-2 mb-2': true,
+              'border-l-4 pl-2 mb-2 flex items-center': true,
             }"
           >
             <p class="text-xs font-semibold text-gray-500 uppercase">
               {{ task.status }}
+            </p>
+            <p
+                v-if="istaskOverdue(task)"
+                class="text-red-500 text-xs font-bold ml-2"
+              >
+                Overdue!
+             
             </p>
           </div>
           <h3 class="font-bold text-lg">{{ task.title }}</h3>
@@ -288,6 +296,12 @@ const closeModal = () => {
     status: TaskStatus.PENDING,
     dueDate: "",
   });
+};
+ const istaskOverdue = (task: Task) => {
+  if (!task.dueDate) return false;
+  const today = new Date();
+  const dueDate = new Date(task.dueDate);
+  return dueDate < today && task.status !== TaskStatus.COMPLETED;
 };
 </script>
 

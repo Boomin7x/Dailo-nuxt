@@ -1,0 +1,49 @@
+# Trigger template — add this to each in-scope repo.
+#
+# SETUP:
+#   1. Copy this file to .github/workflows/trigger_docs_update.yml in each
+#      in-scope repo (e.g. Nuxt-todo-mvp).
+#   2. Replace DOCS_SYSTEM_REPO below with the actual org/repo slug of the
+#      ai-driven-docs-system (e.g. betro-AI-Devs/ai-driven-docs-system).
+#   3. Add secret DOCS_SYSTEM_TOKEN (GitHub PAT with repo scope) to the
+#      in-scope repo's Settings → Secrets and variables → Actions.
+#
+# What it does:
+#   On every push to main, computes the list of changed files and fires a
+#   repository_dispatch event to the docs-system repo so it can re-embed and
+#   re-document only the changed files.
+
+name: Trigger Docs Update
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  trigger-docs-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # need parent commit to compute diff
+
+      - name: Get changed files
+        id: changed
+        run: |
+          FILES=$(git diff HEAD~1 HEAD --name-only | tr '\n' ' ' | xargs)
+          echo "files=${FILES}" >> $GITHUB_OUTPUT
+          echo "Changed files: ${FILES}"
+
+      - name: Dispatch docs update to ai-driven-docs-system
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_SYSTEM_TOKEN }}
+        run: |
+          gh api \
+            repos/betro-AI-Devs/ai-driven-docs-system/dispatches \
+            --method POST \
+            --field event_type=docs-update \
+            --field "client_payload[repo_name]=${{ github.event.repository.name }}" \
+            --field "client_payload[commit_sha]=${{ github.sha }}" \
+            --field "client_payload[changed_files]=${{ steps.changed.outputs.files }}"
